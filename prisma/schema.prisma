@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Vendor {
+  id        String   @id @default(cuid())
+  domain    String   @unique
+  name      String?
+  addedAt   DateTime @default(now())
+  scans     Scan[]
+}
+
+model Scan {
+  id          String   @id @default(cuid())
+  vendorId    String
+  vendor      Vendor   @relation(fields: [vendorId], references: [id], onDelete: Cascade)
+  scannedAt   DateTime @default(now())
+  status      String   @default("pending") // pending | scanning | done | failed
+  riskScore   Int?
+  riskLevel   String?  // low | medium | high
+  data        String?  // JSON blob of all signal results
+  summary     String?  // CFO narrative
+  error       String?
+}
