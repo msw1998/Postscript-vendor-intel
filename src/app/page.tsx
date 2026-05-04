@@ -104,7 +104,7 @@ export default function Home() {
   const handleScanAll = async () => {
     for (const v of vendors) {
       await handleScan(v.id)
-      await new Promise((r) => setTimeout(r, 400))
+      await new Promise((r) => setTimeout(r, 30000))
     }
   }
 

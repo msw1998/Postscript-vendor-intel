@@ -224,12 +224,15 @@ export function VendorDetail({ domain, scan, isScanning, onScan }: VendorDetailP
                           </div>
                         </div>
                       ))}
-                      {s.health.incidents.slice(0, 3).map((inc, i) => (
-                        <div key={i} className="flex items-start gap-2">
-                          <span className="mt-0.5 h-2 w-2 rounded-full shrink-0 bg-amber-400" />
-                          <p className="text-xs text-gray-600">{inc}</p>
-                        </div>
-                      ))}
+                      {s.health.incidents.slice(0, 3).map((inc, i) => {
+                        const text = typeof inc === 'string' ? inc : (inc as Record<string, string>).description ?? JSON.stringify(inc)
+                        return (
+                          <div key={i} className="flex items-start gap-2">
+                            <span className="mt-0.5 h-2 w-2 rounded-full shrink-0 bg-amber-400" />
+                            <p className="text-xs text-gray-600">{text}</p>
+                          </div>
+                        )
+                      })}
                     </>
                   )}
                   {s.health.statusPageUrl && (
